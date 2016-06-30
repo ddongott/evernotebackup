@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<HEAD>
+<SCRIPT language="javascript">
+function toggle(source) {
+    checkboxes = document.getElementsByName('nb_to_backup');
+    for(var i=0, n=checkboxes.length;i<n;i++) {
+        checkboxes[i].checked = source.checked;
+    }
+}
+</SCRIPT>
+</HEAD>
+
+<p style="color:green">
+  Congratulations, you have successfully authorized this application to access your Evernote account!
+</p>                                                                                               
+
+<p>
+  Your account contains the following notebooks:
+</p>
+
+<form action="{% url 'evernotes:evernote_savenotes' %}" method="get">
+  <input type="checkbox" name="backup_all" onClick="toggle(this)" /> Backup All<br/>
+  {% for notebook in notebooks %}
+    <input type="checkbox" name="checked_nbs[]" value={{ notebook.name }}>{{ notebook.name }}<br>
+  {% endfor %}
+  <input type="text" value="8" name="mytextbox" size="1"/>
+  <input type="submit" class="btn" value="backup" name="save_notes">
+</form>
+
+{% endblock %}
+
